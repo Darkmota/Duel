@@ -1,6 +1,11 @@
 <template>
   <div class="hello">
-    <h1>移动端主页</h1>
+    <el-container>
+      <h1>移动端主页</h1>
+      <el-header whatthefuck>
+        <h2>shenmegui</h2>
+      </el-header>
+    </el-container>
   </div>
 </template>
 
@@ -36,5 +41,10 @@ export default {
   position: fixed;
   width: 100%;
   height: 40px;
+}
+.whatthefuck{
+  height:50px;
+  width: 50px;
+  background-color: black;
 }
 </style>

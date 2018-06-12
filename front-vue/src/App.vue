@@ -51,13 +51,9 @@
       </el-dialog>
     </el-header>
     <el-container>
-      <el-aside>
-      </el-aside>
       <el-main>
         <router-view/>
       </el-main>
-      <el-aside>
-      </el-aside>
     </el-container>
   </el-container>
 </template>

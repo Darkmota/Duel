@@ -1,6 +1,12 @@
 <template>
-  <div class="hello">
-    <h1>桌面主页</h1>
+  <div>
+  <div class="inndex">
+    <el-container>
+      <el-header whatthefuck>
+        <h2>shenmegui</h2>
+      </el-header>
+    </el-container>
+  </div>
   </div>
 </template>
 
