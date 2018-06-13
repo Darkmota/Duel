@@ -1,6 +1,14 @@
 <template>
-  <div class="hello">
-    <h1>桌面主页</h1>
+  <div>
+  <div class="index">
+    <el-container id="frame">
+      <el-header whatthefuck>
+        <h2>shenmegui</h2>
+      </el-header>
+      <el-aside id="acco-info">
+      </el-aside>
+    </el-container>
+  </div>
   </div>
 </template>
 
@@ -36,5 +44,16 @@ export default {
   position: fixed;
   width: 100%;
   height: 40px;
+}
+#frame{
+  width:100%;
+  height:300px;
+  background-color: black;
+  color: orange;
+}
+#acco-info{
+  background-color: lightgrey;
+  height:300px;
+  width:100%;
 }
 </style>

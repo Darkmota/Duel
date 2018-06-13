@@ -1,6 +1,10 @@
 <template>
   <div class="hello">
-    <h1>移动端主页</h1>
+    <el-container id="frame">
+      <el-header id="whatthefuck">
+        <h2>shenmegui</h2>
+      </el-header>
+    </el-container>
   </div>
 </template>
 
@@ -36,5 +40,15 @@ export default {
   position: fixed;
   width: 100%;
   height: 40px;
+}
+#frame{
+   height:800px;
+  width: 100%;
+  background-color: black;
+}
+#whatthefuck{
+  height:100px;
+  width: 100%;
+  background-color: skyblue;
 }
 </style>

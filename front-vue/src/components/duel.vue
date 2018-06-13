@@ -1,7 +1,9 @@
 <template>
   <div class="hello">
     <h1>桌面端游戏界面</h1>
-    <canvas id="game" ref="game" width="400" height="300" style="position: fixed; top: 0; left: 0; z-index: 10;"></canvas>
+    <canvas id="game" ref="game" width="400" height="300" style="position: fixed; top: 0; left: 0; z-index: 10;">
+      
+    </canvas>
   </div>
 </template>
 
@@ -32,7 +34,7 @@ export default {
   }
 }
 </script>
-
+    <script type="text/javascript" src=""></script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .m-hd {
