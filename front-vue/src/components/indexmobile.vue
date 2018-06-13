@@ -1,8 +1,7 @@
 <template>
   <div class="hello">
-    <el-container>
-      <h1>移动端主页</h1>
-      <el-header whatthefuck>
+    <el-container id="frame">
+      <el-header id="whatthefuck">
         <h2>shenmegui</h2>
       </el-header>
     </el-container>
@@ -42,9 +41,14 @@ export default {
   width: 100%;
   height: 40px;
 }
-.whatthefuck{
-  height:50px;
-  width: 50px;
+#frame{
+   height:800px;
+  width: 100%;
   background-color: black;
+}
+#whatthefuck{
+  height:100px;
+  width: 100%;
+  background-color: skyblue;
 }
 </style>
