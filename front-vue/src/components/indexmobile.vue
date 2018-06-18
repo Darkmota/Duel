@@ -1,9 +1,6 @@
 <template>
   <div class="hello">
     <el-container id="frame">
-      <el-header id="whatthefuck">
-        <h2>shenmegui</h2>
-      </el-header>
     </el-container>
   </div>
 </template>
@@ -45,10 +42,5 @@ export default {
    height:800px;
   width: 100%;
   background-color: black;
-}
-#whatthefuck{
-  height:100px;
-  width: 100%;
-  background-color: skyblue;
 }
 </style>

@@ -40,4 +40,7 @@ export default {
   width: 100%;
   height: 40px;
 }
+#game{
+  background-color: grey;
+}
 </style>

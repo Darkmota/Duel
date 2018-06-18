@@ -14,6 +14,10 @@ if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobi
     routes: [
       {
         path: '/',
+        redirect: 'index'
+      },
+      {
+        path: '/index',
         name: 'IndexMobile',
         component: IndexMobile
       },
@@ -31,6 +35,10 @@ else {
     routes: [
       {
         path: '/',
+        redirect: 'index'
+      },
+      {
+        path: '/index',
         name: 'Index',
         component: Index
       },

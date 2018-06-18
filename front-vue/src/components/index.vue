@@ -1,23 +1,32 @@
 <template>
   <div class="index">
-    <el-header id="whatthefuck">
-        <h2>shenmegui</h2>
-      </el-header>
+    <!-- <el-header id="whatthefuck">
+      </el-header> -->
+      <el-carousel :interval="5000" arrow="always" height="500px">
+          <el-carousel-item v-for="item in 4" :key="item">
+            <h3>{{ item }}</h3>
+          </el-carousel-item>
+        </el-carousel>
       <el-container id="frame">
       <el-main id="main">
-        <div class="rate">
+        <div>
+        </div>
+        <!-- <div class="rate">
         <el-progress id="win-rate" type="circle" :percentage="80"></el-progress>
         <h1>胜率</h1>
         </div>
-        <div class="line"></div>
+        <div class="line"></div> -->
       </el-main>
-      <el-aside id="acco-info">
-        <h1>帐号信息</h1>
+      <!-- <el-aside id="acco-info">
+        <div id="acco-info-i">帐号信息</div>
         
         <div class="acco-info-line"></div>
-        <h1>胜率</h1>
-      </el-aside>
-    </el-container>
+        <div>胜率</div>
+      </el-aside> -->
+          </el-container>
+      <el-footer id="foot">
+      </el-footer>
+
   </div>
 </template>
 
@@ -73,7 +82,7 @@ export default {
   background-color: lightgrey;
   height:300px;
   width:100%;
-  border-radius: 15px;
+  
 }
 .line{
   margin-left: 50%;
@@ -94,4 +103,26 @@ export default {
   height:1px;
   background-color: white;
 }
+#acco-info-i{
+  text-align: left
+}
+.el-carousel__item h3 {
+    color: #475669;
+    font-size: 18px;
+    opacity: 0.75;
+    line-height: 300px;
+    margin: 0;
+  }
+  
+  .el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+  }
+  
+  .el-carousel__item:nth-child(2n+1) {
+    background-color: #d3dce6;
+  }
+  #foot{
+    margin-top: 20px;
+    background-color: #d3dce6;
+  }
 </style>
