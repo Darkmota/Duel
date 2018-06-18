@@ -2,13 +2,14 @@ var mongoose = require('../db');
 var Schema = mongoose.Schema;
 
 var duelrecordSchema = new Schema({
-	user1: String,
-	title1: String,
-	user2: String,
-	title2: String,
+	hostName: String,
+	hostTitle: String,
+	guestName: String,
+	guestTitle: String,
 	record: [{
-		move1: Number,
-		move2: Number,
+		round: Number,
+		hostMove: Number,
+		guestMove: Number,
 	}],
 	date: {
         type: Date, default: Date.now

@@ -12,6 +12,10 @@ import App from './App.vue'
 import { Swipe, SwipeItem } from 'mint-ui';
 
 
+<<<<<<< HEAD
+=======
+import App from './App';
+>>>>>>> 4d37250c980b41eda8c7d3fe834e0f8629e70bf9
 
 //+ Axios
 import axios from 'axios'
@@ -32,7 +36,7 @@ axios.interceptors.request.use(
 
 Vue.use(MintUI);
 Vue.use(ElementUI);
-Vue.use(VueSocketio, 'http://127.0.0.1:8808');
+Vue.use(VueSocketio, 'http://127.0.0.1:3000');
 Vue.prototype.$http = axios;
 Vue.prototype.$jwt = jwt;
 Vue.config.productionTip = false;
