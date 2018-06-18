@@ -11,10 +11,20 @@ export default {
   name: 'duel',
   data () {
     return {
+      id: "",
+      specialId: "",
       username: "",
       password: "",
       Game: null,
       GameElement: null,
+    }
+  },
+  sockets: {
+    connect() {
+      this.id = this.$socket.id;
+    },
+    testEmit(data) {
+      alert('this method was fired by the socket server. eg: io.emit("testEmit", data)')
     }
   },
   mounted () {

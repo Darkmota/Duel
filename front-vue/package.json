@@ -17,7 +17,8 @@
     "jwt-simple": "^0.5.1",
     "mint-ui": "^2.2.13",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-socket.io": "^2.1.1-b"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
