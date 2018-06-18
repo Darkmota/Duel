@@ -7,7 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueSocketio from 'vue-socket.io';
 import jwt from 'jwt-simple';
 
-import App from './App'
+import App from './App';
 
 //+ Axios
 import axios from 'axios'
@@ -27,7 +27,7 @@ axios.interceptors.request.use(
 	})
 
 Vue.use(ElementUI);
-Vue.use(VueSocketio, 'http://127.0.0.1:8808');
+Vue.use(VueSocketio, 'http://127.0.0.1:3000');
 Vue.prototype.$http = axios;
 Vue.prototype.$jwt = jwt;
 Vue.config.productionTip = false;
