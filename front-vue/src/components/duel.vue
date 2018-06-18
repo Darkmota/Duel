@@ -1,7 +1,16 @@
 <template>
-  <div class="hello">
-    <h1>桌面端游戏界面</h1>
-    <canvas id="game" ref="game" width="400" height="300" style="position: fixed; top: 0; left: 0; z-index: 10;"></canvas>
+  <div class="duel">
+    <div class="main">
+      <canvas id="game" ref="game" width="400" height="300" style="top: 0; left: 0; z-index: 10;"></canvas>
+      <div class="inf">
+        <el-col id="inf-card":span="24">
+          <el-card shadow="always">
+            鼠标悬浮时显示
+          </el-card>
+        </el-col>
+      </div>
+      <div class="share"></div>
+    </div>
   </div>
 </template>
 
@@ -51,6 +60,42 @@ export default {
   height: 40px;
 }
 #game{
+  width: 100%;
+  height: 100%;
   background-color: grey;
+}
+.body{
+  background-image:url(6326474d6f86ef6b8e105681f5434f9c867ef02a.jpg);
+  background-size:cover;
+}
+.main{
+  min-width: 600px;
+  min-height: 400px;
+  width: 60%;
+  height: 60%;
+  margin-top:50px;
+  margin-left: 20%;
+}
+.duel{
+  display: flex;
+  flex-direction: column;
+  width:100%;
+  height:700px;
+}
+.inf{
+  position: relative;
+  margin-top:20px; 
+  width:45%;
+  height:50%;
+  background-color: lightgrey;
+}
+#inf-card{
+  height:300px;
+}
+.share{
+  margin-top:20px; 
+  width:45%;
+  height:50%;
+  background-color: lightgrey;
 }
 </style>

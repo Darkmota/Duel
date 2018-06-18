@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    
     <h1>移动端游戏界面</h1>
     <canvas id="game" ref="game" width="400" height="300" style="position: fixed; top: 0; left: 0; z-index: 10;"></canvas>
   </div>

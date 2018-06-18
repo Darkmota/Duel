@@ -6,8 +6,12 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueSocketio from 'vue-socket.io';
 import jwt from 'jwt-simple';
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+import App from './App.vue'
+import { Swipe, SwipeItem } from 'mint-ui';
 
-import App from './App'
+
 
 //+ Axios
 import axios from 'axios'
@@ -26,6 +30,7 @@ axios.interceptors.request.use(
 		return Promise.reject(error)
 	})
 
+Vue.use(MintUI);
 Vue.use(ElementUI);
 Vue.use(VueSocketio, 'http://127.0.0.1:8808');
 Vue.prototype.$http = axios;

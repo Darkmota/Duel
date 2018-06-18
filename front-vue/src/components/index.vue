@@ -2,6 +2,7 @@
   <div class="index">
     <!-- <el-header id="whatthefuck">
       </el-header> -->
+      
       <el-carousel :interval="5000" arrow="always" height="500px">
           <el-carousel-item v-for="item in 4" :key="item">
             <h3>{{ item }}</h3>
@@ -9,8 +10,10 @@
         </el-carousel>
       <el-container id="frame">
       <el-main id="main">
-        <div>
-        </div>
+        <div class="photo"><!-- <div class="bf-billboard__ratio" style="filter: blur(1.63934px); transform: scale(1.06831);"><picture class="bf-billboard__picture"><source media="(max-width: 320px)" srcset="https://media.contentapi.ea.com/content/dam/bf/images/2018/05/bf5-billboard-homepage-xl.jpg.adapt.crop16x9.320w.jpg"><source media="(max-width: 767px)" srcset="https://media.contentapi.ea.com/content/dam/bf/images/2018/05/bf5-billboard-homepage-xl.jpg.adapt.crop16x9.767w.jpg"><source media="(max-width: 1023px)" srcset="https://media.contentapi.ea.com/content/dam/bf/images/2018/05/bf5-billboard-homepage-xl.jpg.adapt.crop16x9.1023w.jpg"><source media="(max-width: 1455px)" srcset="https://media.contentapi.ea.com/content/dam/bf/images/2018/05/bf5-billboard-homepage-xl.jpg.adapt.crop16x9.1455w.jpg"><source media="(min-width: 1456px)" srcset="https://media.contentapi.ea.com/content/dam/bf/images/2018/05/bf5-billboard-homepage-xl.jpg.adapt.crop16x9.1920w.jpg"><img class="bf-billboard__image" src="https://media.contentapi.ea.com/content/dam/bf/images/2018/05/bf5-billboard-homepage-xl.jpg.adapt.crop16x9.320w.jpg"></picture><dom-if style="display: none;"><template is="dom-if"></template></dom-if>
+          <dom-if style="display: none;"><template is="dom-if"></template></dom-if><div class="bf-billboard__twitch-backgrounder" hidden=""><div id="twitchHolder" class="bf-billboard__twitch-holder"><iframe src="https://player.twitch.tv/?allowfullscreen&amp;channel=battlefield&amp;layout=video&amp;muted&amp;!autoplay&amp;preload=metadata&amp;!showMature&amp;origin=https%3A%2F%2Fwww.battlefield.com" width="640" height="390" frameborder="0" scrolling="no" allow="autoplay; fullscreen" allowfullscreen=""></iframe></div></div></div> --></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
         <!-- <div class="rate">
         <el-progress id="win-rate" type="circle" :percentage="80"></el-progress>
         <h1>胜率</h1>
@@ -63,26 +66,25 @@ export default {
   width: 100%;
   height: 40px;
 }
-#whatthefuck{
-   height:300px;
-}
 #frame{
   width:100%;
-  height:600px;
+  height:700px;
   color: orange;
 }
+.index{
+  margin-left:-20px;
+  margin-right:-20px;
+}
 #main{
-  height: 600px;
+  margin-left:-30px;
+  height: 730px;
   background-color:lightgrey;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
 }
 #acco-info{
   margin-left: 20px;
   background-color: lightgrey;
   height:300px;
   width:100%;
-  
 }
 .line{
   margin-left: 50%;
@@ -121,8 +123,14 @@ export default {
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
   }
+  .photo{
+    height:10%;
+    background-color: black;
+  }
   #foot{
     margin-top: 20px;
     background-color: #d3dce6;
+    height:100px;
   }
+
 </style>

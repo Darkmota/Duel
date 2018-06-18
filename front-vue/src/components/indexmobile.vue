@@ -1,7 +1,18 @@
+
 <template>
   <div class="hello">
-    <el-container id="frame">
-    </el-container>
+      
+      <mt-swipe :auto="4000" id="photo-swap">
+        <mt-swipe-item>1</mt-swipe-item>
+        <mt-swipe-item>2</mt-swipe-item>
+        <mt-swipe-item>3</mt-swipe-item>
+      </mt-swipe>
+      <ul
+        v-infinite-scroll="loadMore"
+        infinite-scroll-disabled="loading"
+        infinite-scroll-distance="10">
+        <li v-for="item in list">{{ item }}</li>
+      </ul>
   </div>
 </template>
 
@@ -27,7 +38,18 @@ export default {
   computed: {
   },
   methods: {
-  }
+  },
+
+loadMore() {
+  this.loading = true;
+  setTimeout(() => {
+    let last = this.list[this.list.length - 1];
+    for (let i = 1; i <= 10; i++) {
+      this.list.push(last + i);
+    }
+    this.loading = false;
+  }, 2500);
+}
 }
 </script>
 
@@ -42,5 +64,12 @@ export default {
    height:800px;
   width: 100%;
   background-color: black;
+}
+.hello{
+  height:800px;
+  width: 100%;
+}
+.photo-swap{
+  background-color: blue;
 }
 </style>
