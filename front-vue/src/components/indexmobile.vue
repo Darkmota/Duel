@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'indexmobile',
+  name: 'IndexMobile',
   data () {
     return {
       ranking: [{username: 'test1', win: 130, lose: 30, point: 1190},

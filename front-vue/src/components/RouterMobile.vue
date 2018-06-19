@@ -1,10 +1,12 @@
 <template>
-  <router-view>
+  <router-view/>
 </template>
 
 <script>
+import DuelMobile from './DuelMobile';
+import IndexMobile from './IndexMobile';
 export default {
-  name: 'router',
+  name: 'RouterMobile',
   data () {
     return {
     }

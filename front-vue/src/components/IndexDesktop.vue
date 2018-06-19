@@ -2,7 +2,7 @@
   <div class="index">
     <!-- <el-header id="whatthefuck">
       </el-header> -->
-      
+
       <el-carousel :interval="5000" arrow="always" height="500px">
           <el-carousel-item v-for="item in 4" :key="item">
             <h3>{{ item }}</h3>
@@ -22,7 +22,7 @@
       </el-main>
       <!-- <el-aside id="acco-info">
         <div id="acco-info-i">帐号信息</div>
-        
+
         <div class="acco-info-line"></div>
         <div>胜率</div>
       </el-aside> -->
@@ -34,8 +34,9 @@
 </template>
 
 <script>
+import DuelDesktop from './DuelDesktop';
 export default {
-  name: 'index',
+  name: 'IndexDesktop',
   data () {
     return {
       ranking: [{username: 'test1', win: 130, lose: 30, point: 1190},
@@ -51,6 +52,7 @@ export default {
     }
   },
   mounted () {
+    console.log(this.$mobile.isMobile);
   },
   computed: {
   },
