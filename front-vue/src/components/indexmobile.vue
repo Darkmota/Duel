@@ -1,7 +1,6 @@
 
 <template>
   <div class="hello">
-      
       <mt-swipe :auto="4000" id="photo-swap">
         <mt-swipe-item>1</mt-swipe-item>
         <mt-swipe-item>2</mt-swipe-item>
@@ -18,7 +17,7 @@
 
 <script>
 export default {
-  name: 'indexmobile',
+  name: 'IndexMobile',
   data () {
     return {
       ranking: [{username: 'test1', win: 130, lose: 30, point: 1190},
@@ -56,7 +55,6 @@ loadMore() {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .m-hd {
-  position: fixed;
   width: 100%;
   height: 40px;
 }
@@ -66,6 +64,7 @@ loadMore() {
   background-color: black;
 }
 .hello{
+  position:fixed;
   height:800px;
   width: 100%;
 }

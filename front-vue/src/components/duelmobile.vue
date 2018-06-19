@@ -9,7 +9,7 @@
 <script>
 import Duel from '../assets/js/duel.js';
 export default {
-  name: 'duelmobile',
+  name: 'DuelMobile',
   data () {
     return {
       username: "",
@@ -23,6 +23,11 @@ export default {
     this.Game = Duel(window, this.GameElement);
     this.Game.init();
     window.onresize = () => {
+      let box = this.GameElement.getBoundingClientRect();
+      this.Game.resize(box);
+      this.Game.clear();
+    }
+    window.onorientationchange = () => {
       let box = this.GameElement.getBoundingClientRect();
       this.Game.resize(box);
       this.Game.clear();

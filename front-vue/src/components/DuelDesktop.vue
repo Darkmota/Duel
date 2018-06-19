@@ -17,7 +17,7 @@
 <script>
 import Duel from '../assets/js/duel.js';
 export default {
-  name: 'duel',
+  name: 'DuelDesktop',
   data () {
     return {
       id: "",
