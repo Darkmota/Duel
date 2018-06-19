@@ -10,21 +10,13 @@
       text-color="#fff"
       active-text-color="#ffd04b">
       <el-menu-item index="1">主页</el-menu-item>
-      <el-submenu index="2">
-        <template slot="title">我的工作台</template>
-        <el-menu-item index="2-1">选项1</el-menu-item>
-        <el-menu-item index="2-2">选项2</el-menu-item>
-        <el-menu-item index="2-3">选项3</el-menu-item>
-        <el-submenu index="2-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="2-4-1">选项1</el-menu-item>
-          <el-menu-item index="2-4-2">选项2</el-menu-item>
-          <el-menu-item index="2-4-3">选项3</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">游戏</a></el-menu-item>
-      <el-menu-item index="3" disabled>消息中心</el-menu-item>
-      <el-button type="primary" style="border: none; margin-left:35%; margin-top:10px" @click="loginFormVisible = true"></el-button>
+     <!--  ---------------------------------- -->
+     <!--  该按钮为点击后自动跳至页尾开始按钮 -->
+      <el-menu-item index="2" id="game" value="search" @onclick="showSearch()"><el-bottom>游戏</el-bottom></el-menu-item>
+      <!-- -------------------------------- -->
+      <el-menu-item index=""><a href="https://www.ele.me" target="_blank">关于我们</a></el-menu-item>
+      
+      <el-button type="warning" style="border: none; margin-right:-40%; margin-top:10px" @click="loginFormVisible = true">登录</el-button>
       </el-menu>
       <el-dialog v-if="formType === 'login'" title="登录" :visible.sync="loginFormVisible">
         <div class="input-container">
@@ -89,6 +81,8 @@ export default {
   name: 'RouterDesktop',
   data () {
     return {
+      onlineTime:0,
+      winTimes:0,
       loginFormVisible: false,
       formType: 'login',
       username: '',
@@ -96,6 +90,13 @@ export default {
       repassword: '',
     }
   },
+  // ------------------------------
+  // 此处为帐号信息
+
+  // computed:{
+  //   if(win: true)
+  //     winTimes: this.winTimes++,
+  // }
   methods: {
     login () {
       let token = "";
@@ -209,9 +210,18 @@ export default {
       }
     }
   },
+
 }
+function showSearch(){
+    window.scroll(1000,200)
+}
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.el-menu{
+  margin-left: auto;
+  min-width: 560px;
+}
 </style>

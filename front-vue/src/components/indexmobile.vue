@@ -12,6 +12,7 @@
         </router-link>
         <mt-button icon="more" slot="right"></mt-button>
     </mt-header>
+    
     <div id="swap">
       <mt-swipe :auto="4000" id="photo-swap">
         <mt-swipe-item>1</mt-swipe-item>

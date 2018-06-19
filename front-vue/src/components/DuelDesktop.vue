@@ -1,15 +1,9 @@
 <template>
   <div class="duel">
     <div class="main">
+      <div class="col col3" style="width:50%"></div>
       <canvas id="game" ref="game" width="400" height="300" style="top: 0; left: 0; z-index: 10;"></canvas>
-      <div class="inf">
-        <el-col id="inf-card":span="24">
-          <el-card shadow="always">
-            鼠标悬浮时显示
-          </el-card>
-        </el-col>
-      </div>
-      <div class="share"></div>
+      <div class="col col3" style="width:50%"></div>
     </div>
   </div>
 </template>
@@ -59,26 +53,25 @@ export default {
   width: 100%;
   height: 40px;
 }
-#game{
+.main{
+  display: flex;
+  flex-direction: row;
+  margin-top:50px;
   width: 100%;
-  height: 100%;
+  justify-content: center;
+}
+#game{
+  min-width: 1280px;
+  min-height: 720px;
   background-color: grey;
 }
 .body{
   background-image:url(6326474d6f86ef6b8e105681f5434f9c867ef02a.jpg);
   background-size:cover;
 }
-.main{
-  min-width: 600px;
-  min-height: 400px;
-  width: 60%;
-  height: 60%;
-  margin-top:50px;
-  margin-left: 20%;
-}
+
 .duel{
   display: flex;
-  flex-direction: column;
   width:100%;
   height:700px;
 }
