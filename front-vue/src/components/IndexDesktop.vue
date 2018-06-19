@@ -6,11 +6,6 @@
         <el-carousel-item v-for="item in 4" :key="item">
         </el-carousel-item>
       </el-carousel>
-      <el-carousel :interval="5000" arrow="always" height="500px">
-          <el-carousel-item v-for="item in 4" :key="item">
-            <h3>{{ item }}</h3>
-          </el-carousel-item>
-        </el-carousel>
       <el-container id="frame">
       <el-main id="main">
         <div class="photo"><!-- <div class="bf-billboard__ratio" style="filter: blur(1.63934px); transform: scale(1.06831);"><picture class="bf-billboard__picture"><source media="(max-width: 320px)" srcset="https://media.contentapi.ea.com/content/dam/bf/images/2018/05/bf5-billboard-homepage-xl.jpg.adapt.crop16x9.320w.jpg"><source media="(max-width: 767px)" srcset="https://media.contentapi.ea.com/content/dam/bf/images/2018/05/bf5-billboard-homepage-xl.jpg.adapt.crop16x9.767w.jpg"><source media="(max-width: 1023px)" srcset="https://media.contentapi.ea.com/content/dam/bf/images/2018/05/bf5-billboard-homepage-xl.jpg.adapt.crop16x9.1023w.jpg"><source media="(max-width: 1455px)" srcset="https://media.contentapi.ea.com/content/dam/bf/images/2018/05/bf5-billboard-homepage-xl.jpg.adapt.crop16x9.1455w.jpg"><source media="(min-width: 1456px)" srcset="https://media.contentapi.ea.com/content/dam/bf/images/2018/05/bf5-billboard-homepage-xl.jpg.adapt.crop16x9.1920w.jpg"><img class="bf-billboard__image" src="https://media.contentapi.ea.com/content/dam/bf/images/2018/05/bf5-billboard-homepage-xl.jpg.adapt.crop16x9.320w.jpg"></picture><dom-if style="display: none;"><template is="dom-if"></template></dom-if>

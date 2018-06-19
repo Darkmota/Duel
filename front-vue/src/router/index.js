@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import jwt from 'jwt-simple'
-import DuelDesktop from '@/components/dueldesktop'
-import DuelMobile from '@/components/duelmobile'
-import IndexDesktop from '@/components/indexdesktop'
-import IndexMobile from '@/components/indexmobile'
-import RouterDesktop from '@/components/routerdesktop'
-import RouterMobile from '@/components/routermobile'
+import DuelDesktop from '@/components/DuelDesktop'
+import DuelMobile from '@/components/DuelMobile'
+import IndexDesktop from '@/components/IndexDesktop'
+import IndexMobile from '@/components/IndexMobile'
+import RouterDesktop from '@/components/RouterDesktop'
+import RouterMobile from '@/components/RouterMobile'
 
 Vue.use(Router);
 let router = null;
