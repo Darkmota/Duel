@@ -1,9 +1,7 @@
 <template>
   <div class="duel">
     <div class="main">
-      <div class="col col3" style="width:50%"></div>
-      <canvas id="game" ref="game" width="400" height="300" style="top: 0; left: 0; z-index: 10;"></canvas>
-      <div class="col col3" style="width:50%"></div>
+      <canvas id="game" ref="game" width="1920" height="1080" style="top: 0; left: 0; z-index: 10;"></canvas>
     </div>
   </div>
 </template>
@@ -26,19 +24,20 @@ export default {
     connect() {
       this.id = this.$socket.id;
     },
-    testEmit(data) {
-      alert('this method was fired by the socket server. eg: io.emit("testEmit", data)')
+    game_start(data) {
+      this.Game.on("game_start", data);
+    },
+    token_time_out(data) {
+      this.Game.on("token_time_out", data);
+    },
+    result(data) {
+      this.Game.on("result", data);
     }
   },
   mounted () {
-    this.GameElement = document.getElementById('game');
-    this.Game = Duel(window, this.GameElement);
+    this.GameElement = this.$refs.game;
+    this.Game = Duel(window, this.GameElement, this.$socket);
     this.Game.init();
-    window.onresize = () => {
-      let box = this.GameElement.getBoundingClientRect();
-      this.Game.resize(box);
-      this.Game.clear();
-    }
     this.Game.start();
   },
   methods: {
@@ -53,25 +52,26 @@ export default {
   width: 100%;
   height: 40px;
 }
-.main{
-  display: flex;
-  flex-direction: row;
-  margin-top:50px;
-  width: 100%;
-  justify-content: center;
-}
 #game{
-  min-width: 1280px;
-  min-height: 720px;
+  width: 100%;
+  height: 100%;
   background-color: grey;
 }
 .body{
   background-image:url(6326474d6f86ef6b8e105681f5434f9c867ef02a.jpg);
   background-size:cover;
 }
-
+.main{
+  min-width: 600px;
+  min-height: 400px;
+  width: 60%;
+  height: 60%;
+  margin-top:50px;
+  margin-left: 20%;
+}
 .duel{
   display: flex;
+  flex-direction: column;
   width:100%;
   height:700px;
 }

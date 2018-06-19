@@ -12,8 +12,9 @@ module.exports = function(server) {
     let userMap = new Map();
     let roomInfo = [];
     socketIO.on('connect', function (socket) {
-        //console.log(socket); 
+        console.log("connect: " + socket.id);
         socket.on('join', function (token) {
+        	console.log("join: " + token);
             let decoded = jwt.decode(token, secret.jwt_secret);
             if (decoded.username) {
                 if (decoded.exp >= new Date().getTime()) {
@@ -28,13 +29,15 @@ module.exports = function(server) {
                     let token = jwt.encode(preload, secret.jwt_secret);
                     socket.emit('game_token', token);
                     */
-                    if (waiterName !== false) {
+                    if (waiterName !== false && waiterName !== decoded.username) {
                         let hostName = waiterName;
                         let hostSocketId = waiterSocketId;
+                    	console.log('Grouped: '+hostName+' '+decoded.username);
                         waiterName = false;
                         waiterSocketId = false;
                         for (let id = 1; id <= 20; ++id) {
-                            if (roomInfo[i] === undefined) {
+                            if (roomInfo[id] === undefined) {
+                    			console.log('Atroom['+id+']');
                                 userMap.set(decoded.username, {
                                     enemyName: hostName,
                                     isHost: false,
@@ -51,21 +54,22 @@ module.exports = function(server) {
                                     MP: 0,
                                     move: false
                                 });
-                                roomInfo[i] = {
+                                roomInfo[id] = {
                                     round: 1,
                                     hostName: hostName,
                                     guestName: decoded.username,
                                     duelRecord:[]
                                 }
-                                socketIO.sockets.socket(hostSocketId).emit('game_start', {enemyName: decoded.username});
+                                socketIO.to(hostSocketId).emit('game_start', {enemyName: decoded.username});
                                 socket.emit('game_start', {enemyName: hostName});
+                                break;
                             }
                         }
                     }
                     else {
                         waiterName = decoded.username;
                         waiterSocketId = socket.id;
-                        socket.emit('wait');
+                        //socket.emit('wait');
                     }
                 }
             }
@@ -145,11 +149,11 @@ module.exports = function(server) {
                                 else if (result === "g") {
                                     result = hostData.enemyName;
                                 }
-                                socketIO.sockets.socket(hostData.socketId).emit("result", {
+                                socketIO.to(hostData.socketId).emit("result", {
                                     result: result,
                                     enemyMove: guestMove
                                 });
-                                socketIO.sockets.socket(guestData.socketId).emit("result", {
+                                socketIO.to(guestData.socketId).emit("result", {
                                     result: result,
                                     enemyMove: hostMove
                                 });
