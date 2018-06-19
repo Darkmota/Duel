@@ -104,6 +104,9 @@ module.exports = function(server) {
                                         if (arr[i].MP < cost) {
                                             arr[i].move = 0;
                                         }
+                                        if (arr[i].move === 0) {
+                                            arr[i].MP++;
+                                        }
                                     }
                                 })([hostData, guestData]);
                                 room.duelRecord.push({
@@ -142,9 +145,6 @@ module.exports = function(server) {
                                 else if (result === "g") {
                                     result = hostData.enemyName;
                                 }
-                                else {
-
-                                }
                                 socketIO.sockets.socket(hostData.socketId).emit("result", {
                                     result: result,
                                     enemyMove: guestMove
@@ -153,6 +153,26 @@ module.exports = function(server) {
                                     result: result,
                                     enemyMove: hostMove
                                 });
+                                if (result !== "u") {
+                                    userMap.delete(room.hostName);
+                                    userMap.delete(room.guestName);
+                                    if (result === "h") {
+                                        dbWorker.modifyUser({username: room.hostName}, {$inc: {"point": 1, "win": 1}});
+                                        dbWorker.modifyUser({username: room.guestName}, {$inc: {"point": -1, "lose": 1}});
+                                    }
+                                    else {
+                                        dbWorker.modifyUser({username: room.hostName}, {$inc: {"point": -1, "lose": 1}});
+                                        dbWorker.modifyUser({username: room.guestName}, {$inc: {"point": 1, "win": 1}});
+                                    }
+                                    dbWorker.addRecord({
+                                        hostName: room.hostName,
+                                        guestName: room.guestName,
+                                        record: room.duelRecord,
+                                    });
+                                }
+                                else {
+                                    delete room;
+                                }
                             }
                         }
                     }

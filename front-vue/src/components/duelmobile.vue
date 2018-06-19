@@ -27,6 +27,11 @@ export default {
       this.Game.resize(box);
       this.Game.clear();
     }
+    window.onorientationchange = () => {
+      let box = this.GameElement.getBoundingClientRect();
+      this.Game.resize(box);
+      this.Game.clear();
+    }
     this.Game.start();
   },
   methods: {

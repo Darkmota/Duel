@@ -11,12 +11,6 @@ import 'mint-ui/lib/style.css'
 import App from './App.vue'
 import { Swipe, SwipeItem } from 'mint-ui';
 
-
-<<<<<<< HEAD
-=======
-import App from './App';
->>>>>>> 4d37250c980b41eda8c7d3fe834e0f8629e70bf9
-
 //+ Axios
 import axios from 'axios'
 axios.interceptors.request.use(

@@ -11,7 +11,7 @@ exports.addUser = function (data, callback) {
             if (doc === null) {
                 new User({
                     username: data.username,
-                    password: data.password,
+                    password: data.password
                 }).save();
             }
             else {
@@ -27,18 +27,21 @@ exports.addUser = function (data, callback) {
         });
 }
 
+exports.addRecord = function (data, callback) {
+    new Duelrecord(data).save();
+}
+
 exports.findUser = function (data, callback) {
     let error = new Error();
     User.findOne({username: data.username})
         .exec()
         .then(doc => {
-            console.log(doc);
+            console.log("database found:" + doc);
             if (doc === null) {
                 callback({code: 1, err: 'username_does_not_exist'});
             }
             else {
-                console.log(data);
-                callback({code: 0, data: data});
+                callback({code: 0, data: doc});
             }
         })
         .catch(err => {

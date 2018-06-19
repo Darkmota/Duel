@@ -6,18 +6,17 @@ let dbWorker = require('../db/dbWorker');
 let Cache = {};
 Cache.userMap = new Map();
 router.post('/*', function(req, res, next) { //test
-    console.log(req.body);
     //res.json({msg:Math.random() * 10});
     next();
 });
 
 router.post('/login', function(req, res, next) {
     dbWorker.findUser(req.body,
-        (ans) => {
-            console.log(ans);
-            switch (ans.code) {
+        (doc) => {
+            switch (doc.code) {
                 case 0:
-                    if (ans.data.username === req.body.username && ans.data.password === req.body.password) { //登录成功，签发token
+                    console.log(doc.data, req.body);
+                    if (doc.data.username === req.body.username && doc.data.password === req.body.password) { //登录成功，签发token
                         let preload = {
                           username: req.body.username,
                           exp: new Date().getTime() + 10*1000,
@@ -26,11 +25,11 @@ router.post('/login', function(req, res, next) {
                         res.json({code: 0, data: token, msg: "login_succeed."});
                     }
                     else {
-                        res.json({code: 1, data: token, msg: "username_or_password_wrong"});
+                        res.json({code: 1, msg: "username_or_password_wrong"});
                     }
                     break;
                 case 1:
-                    res.json({code: 1, msg: "unexcepted_error_" + ans.err.message});
+                    res.json({code: 1, msg: "unexcepted_error_" + doc.err.message});
                     break;
             }
         });
@@ -42,9 +41,9 @@ router.post('/login', function(req, res, next) {
 
 router.post('/register', function(req, res, next) {
     dbWorker.addUser(req.body,
-        (ans) => {
-            console.log(ans);
-            switch (ans.code) {
+        (doc) => {
+            console.log(doc);
+            switch (doc.code) {
                 case 0:
                     let preload = {
                       username: req.body.username,
@@ -54,7 +53,7 @@ router.post('/register', function(req, res, next) {
                     res.json({code: 0, data: token, msg: "Register succeed."});
                     break;
                 case 1:
-                    res.json({code: 1, msg: ans.err});
+                    res.json({code: 1, msg: doc.err});
                     break;
             }
         });

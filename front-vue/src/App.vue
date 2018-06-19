@@ -24,7 +24,7 @@
       </el-submenu>
       <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">游戏</a></el-menu-item>
       <el-menu-item index="3" disabled>消息中心</el-menu-item>
-      <el-button id="acc-head" type="primary" icon="el-icon-head" style="border: none; margin-left:45%; margin-top:10px;" @click="loginFormVisible = true"></el-button>
+      <el-button type="primary" style="border: none; margin-left:35%" @click="loginFormVisible = true">登录</el-button>
       </el-menu>
       <el-dialog v-if="formType === 'login'" title="登录" :visible.sync="loginFormVisible">
         <div class="input-container">
@@ -211,22 +211,10 @@ export default {
       }
     }
   },
-  components: {Duel, Index,}
+  components: {Duel, DuelMobile, Index, IndexMobile}
 }
 </script>
-//   export default {
-//     data() {
-//       return {
-//         activeIndex: '1',
-//         activeIndex2: '1'
-//       };
-//     },
-//     methods: {
-//       handleSelect(key, keyPath) {
-//         console.log(key, keyPath);
-//       }
-//     }
-//   }
+
 <style>
   .input-container .el-input-group__prepend {
     width: 50px;
@@ -242,14 +230,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin:-8px;
-  margin-top: 10px;
+  margin-top: 0;
 }
 #header{
   background-color: lightgrey;
-}
-#acc-head{
-  background-image: url("用户头像.png");
-  background-size:cover;
 }
 </style>

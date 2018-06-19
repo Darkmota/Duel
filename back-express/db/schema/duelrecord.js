@@ -3,9 +3,9 @@ var Schema = mongoose.Schema;
 
 var duelrecordSchema = new Schema({
 	hostName: String,
-	hostTitle: String,
+	//hostTitle: String,
 	guestName: String,
-	guestTitle: String,
+	//guestTitle: String,
 	record: [{
 		round: Number,
 		hostMove: Number,
