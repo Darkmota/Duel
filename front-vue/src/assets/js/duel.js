@@ -44,7 +44,11 @@ let Duel = function(window, element) {
         }
         instance.status = {
             scene: instance.LOADING,
-            pos: {x: 0, y: 0}
+            pos: {x: 0, y: 0},
+            graphics: {
+                loaded: 0,
+                image: {}
+            }
         }
         instance.init = function() {
             this.canvas = element;
