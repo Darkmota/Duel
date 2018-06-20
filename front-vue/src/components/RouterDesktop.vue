@@ -9,14 +9,10 @@
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b">
-      <el-menu-item index="1">主页</el-menu-item>
-     <!--  ---------------------------------- -->
-     <!--  该按钮为点击后自动跳至页尾开始按钮 -->
-      <el-menu-item index="2" id="game" value="search" @onclick="showSearch()"><el-bottom>游戏</el-bottom></el-menu-item>
-      <!-- -------------------------------- -->
-      <el-menu-item index=""><a href="https://www.ele.me" target="_blank">关于我们</a></el-menu-item>
-      
-      <el-button type="warning" style="border: none; margin-right:-40%; margin-top:10px" @click="loginFormVisible = true">登录</el-button>
+      <el-menu-item index="1">
+        <div class="icon"></div>
+      </el-menu-item>
+      <el-button type="warning" style="border: none; margin-right:-60%; margin-top:10px" @click="loginFormVisible = true">登录</el-button>
       </el-menu>
       <el-dialog v-if="formType === 'login'" title="登录" :visible.sync="loginFormVisible">
         <div class="input-container">
@@ -223,5 +219,12 @@ function showSearch(){
 .el-menu{
   margin-left: auto;
   min-width: 560px;
+}
+.icon{
+
+  width:120px;
+  height:57px;
+  background-image:url( '../assets/img/icon(2).jpg');
+  background-size:cover;
 }
 </style>

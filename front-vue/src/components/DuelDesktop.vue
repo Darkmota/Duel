@@ -66,7 +66,7 @@ export default {
   background-color: grey;
 }
 .body{
-  background-image:url(6326474d6f86ef6b8e105681f5434f9c867ef02a.jpg);
+  background-image:url('../assets/img/s2.jpg');
   background-size:cover;
 }
 
