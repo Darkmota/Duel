@@ -12,7 +12,7 @@
           <div class="info-text">孩童时期，我们总会被电视剧，电影的情节所吸引，模仿并于其他孩子进行分享和游戏</div>
           </div>
         </div>
-        <div class="photo-1"><a href="#"><img src="01113a929442f0aa3b83c5c9070cf17e.jpg" /></a>
+        <div class="photo-1">
           <div class="info-1">
             <div class="info-text">这启发了我们，所以我们根据牛仔的经典元素于儿童游戏相结合，制作了这款“决斗”游戏。</div>
         </div>
@@ -156,19 +156,20 @@ export default {
   }
   
   .el-carousel__item:nth-child(4) {
-    background-image:url( 10fe636f9e6d4aa0335509d9d8c5ed76.jpg);
+    background:url( '../assets/img/s1.jpg') no-repeat 0px -100px;
     background-size:cover;
   }
    .el-carousel__item:nth-child(3) {
-    background-image:url( 47ee994c61cc22fc15dd1caa16927c5f.jpg);
+    background:url('../assets/img/s2.jpg') no-repeat 0px -100px;
     background-size:cover;
+    
   }
   .el-carousel__item:nth-child(5) {
-    background-image:url( 8f934d69988d393a6d879e9be4f61bf8.jpg);
+    background:url( '../assets/img/s3.jpg') no-repeat 0px -100px;
     background-size:cover;
   }
   .el-carousel__item:nth-child(6) {
-    background-image:url( 61511e39f4c417bc2f668875b927b7cf.jpg);
+    background:url( '../assets/img/s5.jpg') no-repeat 0px -100px;
     background-size:cover;
   }
   .photo-0{
@@ -176,7 +177,7 @@ export default {
     flex-direction: row;
     width:100%;
     height:600px;
-    background-image:url( 61511e39f4c417bc2f668875b927b7cf.jpg);
+    background:url( '../assets/img/s5.jpg') no-repeat 0px -100px;
     background-size:cover;
     transition: all 1s;
   }
@@ -189,7 +190,7 @@ export default {
     flex-direction: row;
     width:100%;
     height:600px;
-    background-image:url( 01113a929442f0aa3b83c5c9070cf17e.jpg);
+    background:url( '../assets/img/s4.jpg') no-repeat 0px -100px;
     background-size:cover;
     transition: all 1s;
   }
@@ -199,7 +200,7 @@ export default {
   }
   .info-0{
   margin-left: 50%;
-  margin-top: 20%;
+  margin-top: 12%;
   width:20%;
   height:66%;
   }
@@ -256,7 +257,7 @@ export default {
 .icon{
   width:400px;
   height:200px;
-  background-image:url( icon.jpg);
+  background-image:url( '../assets/img/icon.jpg');
     background-size:cover;
 }
 .foot{
