@@ -74,7 +74,11 @@ module.exports = function(server) {
                 }
             }
         });
-        socket.on('submit_movement', function (token, move) {
+        socket.on('submit_movement', function (data) {
+            let token = data.token;
+            let move = data.move;
+            console.log('submit_movement');
+            console.log(data);
             let decoded = jwt.decode(token, secret.jwt_secret);
             if (decoded.username) {
                 if (decoded.exp >= new Date().getTime()) {
@@ -84,24 +88,26 @@ module.exports = function(server) {
                     let myData = userMap.get(decoded.username);
                     if (myData) {
                         myData.move = move;
-                        let room = roomInfo[data.roomId];
+                        let room = roomInfo[myData.roomId];
                         if (room) {
+                            console.log("Room: " + myData.roomId);
                             let hostData = myData.isHost ? myData : userMap.get(room.guestName);
                             let guestData = myData.isHost ? userMap.get(room.guestName) : myData;
                             if (hostData.move !== false && guestData.move !== false) {
                                 ((arr)=>{
+                                    console.log("Move complete: " + hostData.move + ' ' + guestData.move);
                                     for (let i = 0; i < arr.length; ++i) {
                                         let cost = 0;
                                         switch (arr[i].move) {
-                                            case 1:
-                                            case 2:
-                                            case 3:
-                                            case 4:
-                                            case 5:
+                                            case -1:
+                                            case -2:
+                                            case -3:
+                                            case -4:
+                                            case -5:
                                                 cost = arr[i].move;
                                                 break;
-                                            case -2:
-                                            case -4:
+                                            case 2:
+                                            case 4:
                                                 cost = -arr[i].move/2;
                                                 break;
                                         }
@@ -113,6 +119,8 @@ module.exports = function(server) {
                                         }
                                     }
                                 })([hostData, guestData]);
+                                let hostMove = hostData.move;
+                                let guestMove = guestData.move;
                                 room.duelRecord.push({
                                     round: room.round,
                                     hostMove: hostData.move,
@@ -177,6 +185,8 @@ module.exports = function(server) {
                                 else {
                                     delete room;
                                 }
+                                hostData.move = false;
+                                guestData.move = false;
                             }
                         }
                     }

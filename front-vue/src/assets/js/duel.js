@@ -52,42 +52,108 @@ let Duel = function(window, element, socket) {
             },
             click: function(pos) {
                 instance.status.pos = pos;
+                function bt(x, a, b) {
+                    return (a <= x && x <= b);
+                }
+                if (instance.status.playData.myMove === false) {
+                    let subMove = -10;
+                    if (instance.status.playData.myMP >= 1 && bt(pos.x, 360, 760) && bt(pos.y, 110, 210)) {
+                        subMove = -1;
+                    }
+                    if (instance.status.playData.myMP >= 2 && bt(pos.x, 360, 760) && bt(pos.y, 310, 410)) {
+                        subMove = -2;
+                    }
+                    if (instance.status.playData.myMP >= 1 && bt(pos.x, 360, 760) && bt(pos.y, 510, 610)) {
+                        subMove = 2;
+                    }
+                    if (bt(pos.x, 360, 760) && bt(pos.y, 710, 810)) {
+                        subMove = 0;
+                    }
+                    if (instance.status.playData.myMP >= 3 && bt(pos.x, 1160, 1560) && bt(pos.y, 110, 210)) {
+                        subMove = -3;
+                    }
+                    if (instance.status.playData.myMP >= 4 && bt(pos.x, 1160, 1560) && bt(pos.y, 310, 410)) {
+                        subMove = -4;
+                    }
+                    if (instance.status.playData.myMP >= 5 && bt(pos.x, 1160, 1560) && bt(pos.y, 510, 610)) {
+                        subMove = -5;
+                    }
+                    if (instance.status.playData.myMP >= 2 && bt(pos.x, 1160, 1560) && bt(pos.y, 710, 810)) {
+                        subMove = 4;
+                    }
+                    if (subMove !== -10) {
+                        instance.emitList.push({name: "submit_movement", data: {token: window.localStorage.getItem('auth'), move: subMove}});
+                        instance.status.playData.myMove = subMove;
+                    }
+                }
             },
             refresh: function() {
                 instance.ctx.fillStyle = "black";
                 instance.ctx.font = "50px Consolas";
                 if (instance.status.timer > 0) {
-                    instance.ctx.drawImage()
+                    let imgL = instance.status.graphics.image[instance.status.playData.leftImage];
+                    console.log(imgL.complete);
+                    let imgR = instance.status.graphics.image[instance.status.playData.rightImage];
+                    let progress = (instance.status.timer - 200)*(instance.status.timer - 200)/40000;
+                    try {
+                        instance.ctx.drawImage(imgL, progress * imgL.width, 0);
+                        instance.ctx.drawImage(imgR, 1920 - progress * imgR.width, 0);
+                    }
+                    catch(e) {
+                        
+                    }
+                    instance.status.timer--;
+                    return;
                 }
                 if (instance.status.playData.myMove === false) {
-                    instance.ctx.strokeRect(360, 110, 400, 100);
-                    instance.ctx.fillText("单刀(-1)", 560, 180, 400, 100);
+                    if (instance.status.playData.myMP >= 1) {
+                        instance.ctx.strokeRect(360, 110, 400, 100);
+                        instance.ctx.fillText("单刀(-1)", 560, 180, 400, 100);
+                    }
 
-                    instance.ctx.strokeRect(360, 310, 400, 100);
-                    instance.ctx.fillText("双刀(-2)", 560, 380, 400, 100);
+                    if (instance.status.playData.myMP >= 2) {
+                        instance.ctx.strokeRect(360, 310, 400, 100);
+                        instance.ctx.fillText("双刀(-2)", 560, 380, 400, 100);
+                    }
 
-                    instance.ctx.fillStyle = "blue";
-                    instance.ctx.strokeRect(360, 510, 400, 100);
-                    instance.ctx.fillText("格挡(-1)", 560, 580, 400, 100);
+                    if (instance.status.playData.myMP >= 1) {
+                        instance.ctx.fillStyle = "blue";
+                        instance.ctx.strokeRect(360, 510, 400, 100);
+                        instance.ctx.fillText("格挡(-1)", 560, 580, 400, 100);
+                    }
 
                     instance.ctx.fillStyle = "green";
                     instance.ctx.strokeRect(360, 710, 400, 100);
                     instance.ctx.fillText("蓄能(+1)", 560, 780, 400, 100);
 
-                    instance.ctx.fillStyle = "black";
-                    instance.ctx.strokeRect(1160, 110, 400, 100);
-                    instance.ctx.fillText("单枪(-3)", 1360, 180, 400, 100);
+                    if (instance.status.playData.myMP >= 3) {
+                        instance.ctx.fillStyle = "black";
+                        instance.ctx.strokeRect(1160, 110, 400, 100);
+                        instance.ctx.fillText("单枪(-3)", 1360, 180, 400, 100);
+                    }
 
-                    instance.ctx.strokeRect(1160, 310, 400, 100);
-                    instance.ctx.fillText("双枪(-4)", 1360, 380, 400, 100);
+                    if (instance.status.playData.myMP >= 4) {
+                        instance.ctx.strokeRect(1160, 310, 400, 100);
+                        instance.ctx.fillText("双枪(-4)", 1360, 380, 400, 100);
+                    }
 
-                    instance.ctx.fillStyle = "blue";
-                    instance.ctx.strokeRect(1160, 510, 400, 100);
-                    instance.ctx.fillText("防暴盾(-2)", 1360, 580, 400, 100);
+                    if (instance.status.playData.myMP >= 2) {
+                        instance.ctx.fillStyle = "blue";
+                        instance.ctx.strokeRect(1160, 510, 400, 100);
+                        instance.ctx.fillText("防暴盾(-2)", 1360, 580, 400, 100);
+                    }
 
+                    if (instance.status.playData.myMP >= 5) {
+                        instance.ctx.fillStyle = "red";
+                        instance.ctx.strokeRect(1160, 710, 400, 100);
+                        instance.ctx.fillText("龟派气功(-5)", 1360, 780, 400, 100);
+                    }
+                    
                     instance.ctx.fillStyle = "red";
-                    instance.ctx.strokeRect(1160, 710, 400, 100);
-                    instance.ctx.fillText("龟派气功(-5)", 1360, 780, 400, 100);
+                    instance.ctx.fillText("请出招", 960, 1000, 500, 200);
+                }
+                else if (instance.status.playData.enemyMove === false) {
+                    instance.ctx.fillText("等待对手……", 960, 1000, 500, 200);
                 }
                 if (instance.status.playData.myMove !== false && instance.status.playData.enemyMove !== false) {
                     instance.status.timer = 200;
@@ -97,14 +163,17 @@ let Duel = function(window, element, socket) {
                         case -3:
                         case -4:
                         case -5:
-                            instance.status.playData.leftImage = "La" + (- instance.status.playData.myMove);
+                            instance.status.playData.leftImage = "La" - instance.status.playData.myMove;
+                            instance.status.playData.myMP += instance.status.playData.myMove;
                             break;
                         case 2:
                         case 4:
                             instance.status.playData.leftImage = "Ld" + (instance.status.playData.myMove / 2);
+                            instance.status.playData.myMP -= instance.status.playData.myMove/2;
                             break;
                         case 0:
                             instance.status.playData.leftImage = "L0";
+                            instance.status.playData.myMP++;
                             break;
                     }
                     switch (instance.status.playData.enemyMove) {
@@ -113,19 +182,26 @@ let Duel = function(window, element, socket) {
                         case -3:
                         case -4:
                         case -5:
-                            instance.status.playData.rightImage = "Ra" + (- instance.status.playData.enemyMove);
+                            instance.status.playData.rightImage = "Ra" - instance.status.playData.enemyMove;
+                            instance.status.playData.enemyMP += instance.status.playData.enemyMove;
                             break;
                         case 2:
                         case 4:
                             instance.status.playData.rightImage = "Rd" + (instance.status.playData.enemyMove / 2);
+                            instance.status.playData.enemyMP -= instance.status.playData.enemyMove/2;
                             break;
                         case 0:
                             instance.status.playData.rightImage = "R0";
+                            instance.status.playData.enemyMP++;
                             break;
                     }
+                    instance.status.playData.myMove = false;
+                    instance.status.playData.enemyMove = false;
                 }
                 instance.ctx.fillStyle = "red";
                 instance.ctx.font = "100px Consolas";
+                instance.ctx.fillText("我方能量: " + instance.status.playData.myMP, 560, 1000, 500, 200);
+                instance.ctx.fillText("对手能量: " + instance.status.playData.enemyMP, 1360, 1000, 500, 200);
             }
         }
         instance.status = {
@@ -139,7 +215,7 @@ let Duel = function(window, element, socket) {
                 image: {}
             },
             playData: {},
-            timer: 200
+            timer: 0
         }
         instance.init = function() {
             let imgList = ['L0', 'Ld1', 'Ld2', 'La1', 'La2', 'La3', 'La4', 'La5', 'R0', 'Rd1', 'Rd2', 'Ra1', 'Ra2', 'Ra3', 'Ra4', 'Ra5'];
@@ -173,7 +249,7 @@ let Duel = function(window, element, socket) {
                             myMove: false,
                             enemyMove: false,
                             round: 1,
-                            animeTime: 200
+                            animeTime: 0
                         }
                         instance.status.scene = instance.PLAYING;
                         break;

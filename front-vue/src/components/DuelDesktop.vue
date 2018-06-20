@@ -3,6 +3,7 @@
     <div class="main">
       <canvas id="game" ref="game" width="1920" height="1080" style="top: 0; left: 0; z-index: 10;"></canvas>
     </div>
+    
   </div>
 </template>
 
