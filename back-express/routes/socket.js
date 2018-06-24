@@ -14,30 +14,22 @@ module.exports = function(server) {
     socketIO.on('connect', function (socket) {
         console.log("connect: " + socket.id);
         socket.on('join', function (token) {
-        	console.log("join: " + token);
+            console.log("join: " + token);
             let decoded = jwt.decode(token, secret.jwt_secret);
             if (decoded.username) {
-                if (decoded.exp >= new Date().getTime()) {
+                if (0&&decoded.exp >= new Date().getTime()) {
                     socket.emit('token_time_out');
                 }
                 else {
-                    /*
-                    let preload = {
-                        username: decoded.username,
-                        exp: new Date().getTime() + 60*10*1000,
-                    }
-                    let token = jwt.encode(preload, secret.jwt_secret);
-                    socket.emit('game_token', token);
-                    */
                     if (waiterName !== false && waiterName !== decoded.username) {
                         let hostName = waiterName;
                         let hostSocketId = waiterSocketId;
-                    	console.log('Grouped: '+hostName+' '+decoded.username);
+                        console.log('Grouped: '+hostName+' '+decoded.username);
                         waiterName = false;
                         waiterSocketId = false;
-                        for (let id = 1; id <= 20; ++id) {
+                        for (let id = 1; id <= 200; ++id) {
                             if (roomInfo[id] === undefined) {
-                    			console.log('Atroom['+id+']');
+                                console.log('Atroom['+id+']');
                                 userMap.set(decoded.username, {
                                     enemyName: hostName,
                                     isHost: false,
@@ -74,14 +66,51 @@ module.exports = function(server) {
                 }
             }
         });
+        socket.on('surrender', function(token) {
+            console.log('[on] surrender');
+            let decoded = jwt.decode(token, secret.jwt_secret);
+            if (decoded.username) {
+                let myData = userMap.get(decoded.username);
+                if (myData === undefined) {
+                    if (waiterName === decoded.username) {
+                        waiterName = false;
+                        console.log('Waiter '+decoded.username+' stop waiting.');
+                    }
+                    else {
+                        console.log('[Unexcpted] Waiter is '+ waiterName +'.');
+                    }
+                }
+                else {
+                    let room = roomInfo[myData.roomId];
+                    console.log(myData);
+                    console.log(room);
+                    if (room) {
+                        console.log("[at] Room: " + myData.roomId);
+                        let hostData = myData.isHost ? myData : userMap.get(room.guestName);
+                        let guestData = myData.isHost ? userMap.get(room.guestName) : myData;
+                        if (myData.isHost) {
+                            socketIO.to(guestData.socketId).emit("result", {
+                                result: "g",
+                                enemyMove: -100 //means surrender
+                            });
+                        }
+                        else {
+                            socketIO.to(hostData.socketId).emit("result", {
+                                result: "h",
+                                enemyMove: -100 //means surrender
+                            });
+                        }
+                    }
+                }
+            }
+        });
         socket.on('submit_movement', function (data) {
             let token = data.token;
             let move = data.move;
-            console.log('submit_movement');
-            console.log(data);
+            console.log('[on] submit_movement');
             let decoded = jwt.decode(token, secret.jwt_secret);
             if (decoded.username) {
-                if (decoded.exp >= new Date().getTime()) {
+                if (0&&decoded.exp >= new Date().getTime()) {
                     socket.emit('token_time_out');
                 }
                 else {
@@ -89,13 +118,17 @@ module.exports = function(server) {
                     if (myData) {
                         myData.move = move;
                         let room = roomInfo[myData.roomId];
+                        console.log(myData);
+                        console.log(room);
                         if (room) {
-                            console.log("Room: " + myData.roomId);
-                            let hostData = myData.isHost ? myData : userMap.get(room.guestName);
+                            console.log("[at] Room: " + myData.roomId);
+                            let hostData = myData.isHost ? myData : userMap.get(room.hostName);
                             let guestData = myData.isHost ? userMap.get(room.guestName) : myData;
                             if (hostData.move !== false && guestData.move !== false) {
+                                console.log("----"+room.hostName+" vs "+room.guestName+"----");
+                                console.log("Round: " + room.round);
                                 ((arr)=>{
-                                    console.log("Move complete: " + hostData.move + ' ' + guestData.move);
+                                    console.log("Move: " + hostData.move + ' ' + guestData.move);
                                     for (let i = 0; i < arr.length; ++i) {
                                         let cost = 0;
                                         switch (arr[i].move) {
@@ -104,11 +137,11 @@ module.exports = function(server) {
                                             case -3:
                                             case -4:
                                             case -5:
-                                                cost = arr[i].move;
+                                                cost = -arr[i].move;
                                                 break;
                                             case 2:
                                             case 4:
-                                                cost = -arr[i].move/2;
+                                                cost = arr[i].move/2;
                                                 break;
                                         }
                                         if (arr[i].MP < cost) {
@@ -121,11 +154,6 @@ module.exports = function(server) {
                                 })([hostData, guestData]);
                                 let hostMove = hostData.move;
                                 let guestMove = guestData.move;
-                                room.duelRecord.push({
-                                    round: room.round,
-                                    hostMove: hostData.move,
-                                    guestMove: guestData.move
-                                });
                                 let result = "u";
                                 if (hostMove < 0 && guestMove < 0) {
                                     if (hostMove < guestMove) {
@@ -151,18 +179,10 @@ module.exports = function(server) {
                                         result = "g";
                                     }
                                 }
-                                if (result === "h") {
-                                    result = guestData.enemyName;
-                                }
-                                else if (result === "g") {
-                                    result = hostData.enemyName;
-                                }
                                 socketIO.to(hostData.socketId).emit("result", {
-                                    result: result,
                                     enemyMove: guestMove
                                 });
                                 socketIO.to(guestData.socketId).emit("result", {
-                                    result: result,
                                     enemyMove: hostMove
                                 });
                                 if (result !== "u") {
@@ -181,12 +201,18 @@ module.exports = function(server) {
                                         guestName: room.guestName,
                                         record: room.duelRecord,
                                     });
-                                }
-                                else {
                                     delete room;
                                 }
-                                hostData.move = false;
-                                guestData.move = false;
+                                else {
+                                    room.duelRecord.push({
+                                        round: room.round,
+                                        hostMove: hostMove,
+                                        guestMove: guestMove,
+                                    })
+                                    hostData.move = false;
+                                    guestData.move = false;
+                                    room.round++;
+                                }
                             }
                         }
                     }

@@ -3,7 +3,6 @@
     <div class="main">
       <canvas id="game" ref="game" width="1920" height="1080" style="top: 0; left: 0; z-index: 10;"></canvas>
     </div>
-    
   </div>
 </template>
 
@@ -40,6 +39,9 @@ export default {
     this.Game = Duel(window, this.GameElement, this.$socket);
     this.Game.init();
     this.Game.start();
+  },
+  destroyed () {
+    this.$socket.emit('surrender', this.$store.commit('getToken'));
   },
   methods: {
   }
@@ -78,7 +80,7 @@ export default {
 }
 .inf{
   position: relative;
-  margin-top:20px; 
+  margin-top:20px;
   width:45%;
   height:50%;
   background-color: lightgrey;

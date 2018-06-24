@@ -2,17 +2,21 @@
   <el-container id="app">
     <el-header id="header">
       <el-menu
-      :default-active="activeIndex2"
       class="el-menu-demo"
       mode="horizontal"
-      @select="handleSelect"
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b">
       <el-menu-item index="1">
         <div class="icon"></div>
       </el-menu-item>
-      <el-button type="warning" style="border: none; margin-right:-60%; margin-top:10px" @click="loginFormVisible = true">登录</el-button>
+      <div v-if="isLogin">
+        <a>{{$store.state.username}}</a>
+        <el-button type="warning" style="border: none; margin-right:-60%; margin-top:10px" @click="logout">登出</el-button>
+      </div>
+      <div v-else>
+        <el-button type="warning" style="border: none; margin-right:-60%; margin-top:10px" @click="loginFormVisible = true">登录</el-button>
+      </div>
       </el-menu>
       <el-dialog v-if="formType === 'login'" title="登录" :visible.sync="loginFormVisible">
         <div class="input-container">
@@ -75,6 +79,15 @@ import DuelDesktop from './DuelDesktop';
 import IndexDesktop from './IndexDesktop';
 export default {
   name: 'RouterDesktop',
+  mounted () {
+    let username = window.localStorage.getItem('username');
+    if (username) {
+      this.$store.commit('setLogin', {
+        token: window.localStorage.getItem('auth'),
+        username: window.localStorage.getItem('username')
+      })
+    }
+  },
   data () {
     return {
       onlineTime:0,
@@ -86,13 +99,11 @@ export default {
       repassword: '',
     }
   },
-  // ------------------------------
-  // 此处为帐号信息
-
-  // computed:{
-  //   if(win: true)
-  //     winTimes: this.winTimes++,
-  // }
+  computed:{
+    isLogin() {
+      return this.$store.getters.isLogin;
+    }
+  },
   methods: {
     login () {
       let token = "";
@@ -107,12 +118,12 @@ export default {
         .then((res) => {
           if (res.data.code === 0) {
             console.log('Received token: '+ res.data.data);
+            this.loginFormVisible = false;
+            this.$store.dispatch('doLogin', {token: res.data.data, username: this.username});
             this.$message.success({
               message: '登录成功',
             });
-            window.localStorage.setItem('auth', res.data.data);
-            this.loginFormVisible = false;
-            this.$router.push({path: '/duel'});
+            //this.$router.push({path: '/duel'});
           }
           else {
             this.$message.error({
@@ -125,6 +136,9 @@ export default {
         .catch(err => {
           this.msg = '服务器出错:'+err.message;
         });
+    },
+    logout () {
+      this.$store.dispatch('doLogout');
     },
     registerCheck () {
       if (this.username === "") {
@@ -191,11 +205,14 @@ export default {
                 message: '注册成功，将自动登录',
               });
               window.localStorage.setItem('auth', res.data.data);
-              this.$router.push({path: '/'});
+              this.$store.dispatch('doLogin', {token: res.data.data, username: this.username});
+              this.$message.success({
+                message: '登录成功',
+              });
             }
             else {
               this.$message.error({
-                message: '注册失败',
+                message: '注册失败，用户名已存在',
               });
             }
             console.log(res);
@@ -206,7 +223,6 @@ export default {
       }
     }
   },
-
 }
 function showSearch(){
     window.scroll(1000,200)
@@ -221,7 +237,6 @@ function showSearch(){
   min-width: 560px;
 }
 .icon{
-
   width:120px;
   height:57px;
   background-image:url( '../assets/img/icon(2).jpg');

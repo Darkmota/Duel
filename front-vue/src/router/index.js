@@ -35,12 +35,13 @@ if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobi
   });
 }
 else {
-    console.log('NOT MOBILE');
+    console.log('DESKTOP');
     router = new Router({
     routes: [
       {
         path: '/',
         name: 'RouterDesktop',
+        redirect: 'index',
         component: RouterDesktop,
         children: [
           {

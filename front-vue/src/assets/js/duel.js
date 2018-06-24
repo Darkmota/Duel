@@ -17,7 +17,6 @@ let Duel = function(window, element, socket) {
             },
             click: function(pos) {
                 instance.status.pos = pos;
-                console.log([instance.status.pos.x, instance.status.pos.y]);
             },
             refresh: function() {
                 if (instance.status.graphics.left === 0) {
@@ -38,12 +37,32 @@ let Duel = function(window, element, socket) {
             },
             click: function(pos) {
                 instance.status.pos = pos;
-                console.log([instance.status.pos.x, instance.status.pos.y]);
             },
             refresh: function() {
                 instance.ctx.fillStyle = "black";
                 instance.ctx.font = "50px Consolas";
                 instance.ctx.fillText("正在等待新对手……", 960, 540, 600, 100);
+            }
+        }
+        instance.RESULT = {
+            move: function(pos) {
+                instance.status.pos = pos;
+            },
+            click: function(pos) {
+                instance.status.pos = pos;
+                instance.status.scene = instance.LOADING;
+            },
+            refresh: function() {
+                if (instance.status.win) {
+                instance.ctx.font = "120px Consolas";
+                    instance.ctx.fillStyle = "red";
+                    instance.ctx.fillText("你赢了", 960, 540, 600, 100);
+                }
+                else {
+                    instance.ctx.fillStyle = "blue";
+                    instance.ctx.fillText("你输了", 960, 540, 600, 100);
+                }
+                instance.ctx.fillText("双方网页刷新以重新匹配", 960, 740, 1200, 100);
             }
         }
         instance.PLAYING = {
@@ -69,17 +88,18 @@ let Duel = function(window, element, socket) {
                     if (bt(pos.x, 360, 760) && bt(pos.y, 710, 810)) {
                         subMove = 0;
                     }
+
                     if (instance.status.playData.myMP >= 3 && bt(pos.x, 1160, 1560) && bt(pos.y, 110, 210)) {
                         subMove = -3;
                     }
                     if (instance.status.playData.myMP >= 4 && bt(pos.x, 1160, 1560) && bt(pos.y, 310, 410)) {
                         subMove = -4;
                     }
-                    if (instance.status.playData.myMP >= 5 && bt(pos.x, 1160, 1560) && bt(pos.y, 510, 610)) {
-                        subMove = -5;
-                    }
-                    if (instance.status.playData.myMP >= 2 && bt(pos.x, 1160, 1560) && bt(pos.y, 710, 810)) {
+                    if (instance.status.playData.myMP >= 2 && bt(pos.x, 1160, 1560) && bt(pos.y, 510, 610)) {
                         subMove = 4;
+                    }
+                    if (instance.status.playData.myMP >= 5 && bt(pos.x, 1160, 1560) && bt(pos.y, 710, 810)) {
+                        subMove = -5;
                     }
                     if (subMove !== -10) {
                         instance.emitList.push({name: "submit_movement", data: {token: window.localStorage.getItem('auth'), move: subMove}});
@@ -94,14 +114,9 @@ let Duel = function(window, element, socket) {
                     let imgL = instance.status.graphics.image[instance.status.playData.leftImage];
                     console.log(imgL.complete);
                     let imgR = instance.status.graphics.image[instance.status.playData.rightImage];
-                    let progress = (instance.status.timer - 200)*(instance.status.timer - 200)/40000;
-                    try {
-                        instance.ctx.drawImage(imgL, progress * imgL.width, 0);
-                        instance.ctx.drawImage(imgR, 1920 - progress * imgR.width, 0);
-                    }
-                    catch(e) {
-                        
-                    }
+                    let progress = 1-(instance.status.timer)*(instance.status.timer)/6400;
+                    instance.ctx.drawImage(imgL, (progress - 1) * imgL.width, 0);
+                    instance.ctx.drawImage(imgR, 1920 - progress * imgR.width, 0);
                     instance.status.timer--;
                     return;
                 }
@@ -148,7 +163,6 @@ let Duel = function(window, element, socket) {
                         instance.ctx.strokeRect(1160, 710, 400, 100);
                         instance.ctx.fillText("龟派气功(-5)", 1360, 780, 400, 100);
                     }
-                    
                     instance.ctx.fillStyle = "red";
                     instance.ctx.fillText("请出招", 960, 1000, 500, 200);
                 }
@@ -156,14 +170,14 @@ let Duel = function(window, element, socket) {
                     instance.ctx.fillText("等待对手……", 960, 1000, 500, 200);
                 }
                 if (instance.status.playData.myMove !== false && instance.status.playData.enemyMove !== false) {
-                    instance.status.timer = 200;
+                    instance.status.timer = 80;
                     switch (instance.status.playData.myMove) {
                         case -1:
                         case -2:
                         case -3:
                         case -4:
                         case -5:
-                            instance.status.playData.leftImage = "La" - instance.status.playData.myMove;
+                            instance.status.playData.leftImage = "La" + (-instance.status.playData.myMove);
                             instance.status.playData.myMP += instance.status.playData.myMove;
                             break;
                         case 2:
@@ -182,7 +196,7 @@ let Duel = function(window, element, socket) {
                         case -3:
                         case -4:
                         case -5:
-                            instance.status.playData.rightImage = "Ra" - instance.status.playData.enemyMove;
+                            instance.status.playData.rightImage = "Ra" + (-instance.status.playData.enemyMove);
                             instance.status.playData.enemyMP += instance.status.playData.enemyMove;
                             break;
                         case 2:
@@ -194,6 +208,51 @@ let Duel = function(window, element, socket) {
                             instance.status.playData.rightImage = "R0";
                             instance.status.playData.enemyMP++;
                             break;
+                        case -100:
+                            instance.status.win = true;
+                            instance.status.scene = instance.RESULT;
+                            break;
+                    }
+                    let myMove = instance.status.playData.myMove;
+                    let enemyMove = instance.status.playData.enemyMove;
+                    let result = "u";
+                    if (enemyMove === -100) {
+                        result = "m";
+                    }
+                    else {
+                        if (myMove < 0 && enemyMove < 0) {
+                            if (myMove < enemyMove) {
+                                result = "m";
+                            }
+                            else if (myMove > enemyMove) {
+                                result = "e";
+                            }
+                        }
+                        else if (myMove < 0 && enemyMove === 0) {
+                            result = "m";
+                        }
+                        else if (myMove === 0 && enemyMove < 0) {
+                            result = "e";
+                        }
+                        else if (myMove < 0 && enemyMove > 0) {
+                            if (- myMove > enemyMove) {
+                                result = "m";
+                            }
+                        }
+                        else if (myMove > 0 && enemyMove < 0) {
+                            if (- enemyMove > myMove) {
+                                result = "e";
+                            }
+                        }
+                    }
+                    if (result !== "u") {
+                        if (result === "m") {
+                            instance.status.win = true;
+                        }
+                        else {
+                            instance.status.win = false;
+                        }
+                        instance.status.scene = instance.RESULT;
                     }
                     instance.status.playData.myMove = false;
                     instance.status.playData.enemyMove = false;
@@ -211,14 +270,14 @@ let Duel = function(window, element, socket) {
             rightImage: false,
             pos: {x: 0, y: 0},
             graphics: {
-                left: 16,
+                left: 17,
                 image: {}
             },
             playData: {},
             timer: 0
         }
         instance.init = function() {
-            let imgList = ['L0', 'Ld1', 'Ld2', 'La1', 'La2', 'La3', 'La4', 'La5', 'R0', 'Rd1', 'Rd2', 'Ra1', 'Ra2', 'Ra3', 'Ra4', 'Ra5'];
+            let imgList = ['L0', 'Ld1', 'Ld2', 'La1', 'La2', 'La3', 'La4', 'La5', 'R0', 'Rd1', 'Rd2', 'Ra1', 'Ra2', 'Ra3', 'Ra4', 'Ra5', 'bg'];
             function imgLoad(img, callback) {
                 var timer = setInterval(function() {
                     if (img && img.complete) {
@@ -230,7 +289,7 @@ let Duel = function(window, element, socket) {
             for (let i = 0; i < imgList.length; ++i) {
                 let name = imgList[i];
                 instance.status.graphics.image[name] = new Image();
-                instance.status.graphics.image[name].src = "../img/" + name + ".png";
+                instance.status.graphics.image[name].src = require("../img/" + name + ".png");
                 imgLoad(instance.status.graphics.image[name], () => {
                     instance.status.graphics.left--;
                 });
@@ -239,8 +298,8 @@ let Duel = function(window, element, socket) {
             this.socketOn = function (name, data) {
                 switch (name) {
                     case "token_time_out":
-                        alert("token超时无效，请重新登录。");
-                        break;
+                        // alert("token超时无效，请重新登录。");
+                        // break;
                     case "game_start":
                         instance.status.playData = {
                             authChecked: true,
@@ -295,6 +354,10 @@ let Duel = function(window, element, socket) {
             let w = window;
             let requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
             let main = () => {
+                this.clear();
+                this.ctx.globalAlpha = 0.3;
+                this.ctx.drawImage(instance.status.graphics.image.bg, 0, 0, instance.status.graphics.image.bg.width, instance.status.graphics.image.bg.height, 0, 0, 1920, 1080);
+                this.ctx.globalAlpha = 1;
                 if (this.emitList[0]) {
                     console.log("emited: ["+this.emitList[0].name+"]: " + this.emitList[0].data);
                     this.socket.emit(this.emitList[0].name, this.emitList[0].data);
@@ -305,11 +368,9 @@ let Duel = function(window, element, socket) {
                     this.socketOn(this.onList[0].name, this.onList[0].data);
                     this.onList.shift();
                 }
-                this.clear();
                 this.status.scene.refresh();
                 requestAnimationFrame(main);
             };
-            console.log(this);
             main();
         }
         return instance;
